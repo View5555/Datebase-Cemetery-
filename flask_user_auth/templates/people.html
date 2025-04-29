@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Список умерших{% endblock %}
+
+{% block content %}
+<h2>Список умерших</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Год рождения</th>
+        <th>Год смерти</th>
+        <th>Причина смерти</th>
+        {% if role == 'admin' %}
+        <th>Действия</th>
+        {% endif %}
+    </tr>
+
+    {% for person in people %}
+    <tr>
+        <td>{{ person[0] }}</td>
+        <td>{{ person[1] }}</td>
+        <td>{{ person[2] }}</td>
+        <td>{{ person[3] }}</td>
+        <td>{{ person[4] }}</td>
+        <td>{{ person[5] }}</td>
+        {% if role == 'admin' %}
+        <td>
+            <a href="{{ url_for('edit_person', person_id=person[0]) }}">✏️ Изменить</a> |
+            <a href="{{ url_for('delete_person', person_id=person[0]) }}">🗑️ Удалить</a>
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+
+<a href="{{ url_for('add_person') }}">➕ Добавить нового</a><br>
+<a href="{{ url_for('dashboard') }}">🔙 Назад в меню</a>
+{% endblock %}

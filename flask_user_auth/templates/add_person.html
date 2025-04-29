@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Добавить умершего{% endblock %}
+
+{% block content %}
+<h2>Добавить запись об умершем</h2>
+
+<form method="POST">
+    <label>Имя:</label><br>
+    <input name="first_name" required><br><br>
+
+    <label>Фамилия:</label><br>
+    <input name="last_name" required><br><br>
+
+    <label>Год рождения:</label><br>
+    <input name="birth_year" type="number" required><br><br>
+
+    <label>Год смерти:</label><br>
+    <input name="death_year" type="number" required><br><br>
+
+    <label>Причина смерти:</label><br>
+    <input name="cause"><br><br>
+
+    <button type="submit">➕ Добавить</button>
+</form>
+
+<br>
+<a href="{{ url_for('people') }}">🔙 Назад к списку</a>
+{% endblock %}

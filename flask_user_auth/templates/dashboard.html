@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Панель управления{% endblock %}
+{% block content %}
+<h2>Добро пожаловать, {{ username }}!</h2>
+<p>Ваша роль: {{ role }}</p>
+
+{% if role == 'admin' %}
+    <p><strong>Вы администратор. Здесь будут админ-функции.</strong></p>
+{% else %}
+    <p><strong>Вы обычный пользователь.</strong></p>
+{% endif %}
+
+<a href="{{ url_for('logout') }}">Выйти</a>
+{% endblock %}
