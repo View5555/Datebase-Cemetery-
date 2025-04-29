@@ -11,7 +11,6 @@ def init_db():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
 
-    # Здесь создаём таблицу users
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,17 +19,6 @@ def init_db():
         role TEXT NOT NULL
     )''')
 
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS people (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        first_name TEXT NOT NULL,
-        last_name TEXT NOT NULL,
-        birth_year INTEGER,
-        death_year INTEGER,
-        cause_of_death TEXT
-    )''')
-
-    # === ДОБАВЛЯЕМ ДЕФОЛТНОГО АДМИНА ===
     cursor.execute("SELECT COUNT(*) FROM users")
     if cursor.fetchone()[0] == 0:
         cursor.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", ('admin', 'admin123', 'admin'))
@@ -74,11 +62,12 @@ def login():
         user = cursor.fetchone()
         conn.close()
         if user:
+            session['user_id'] = user[0]
             session['username'] = user[1]
-            session['role'] = user[3]
+            session['role'] = user[3]  # <--- обязательно проверяй, что user[3] существует
             return redirect(url_for('dashboard'))
         else:
-            flash('Неверный логин или пароль.', 'danger')
+            flash('Неверный логин или пароль')
             return redirect(url_for('login'))
     return render_template('login.html')
 
@@ -94,6 +83,9 @@ def logout():
     return redirect(url_for('login'))
 
 # === Запуск приложения ===
+# ... все твои маршруты выше
+
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    app.run(debug=False)
+
