@@ -63,6 +63,7 @@ def login():
             return redirect(url_for('dashboard'))
         else:
             flash('Неверный логин или пароль.', 'danger')
+            return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/dashboard')
